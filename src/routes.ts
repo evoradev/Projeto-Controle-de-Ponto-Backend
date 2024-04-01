@@ -1,0 +1,17 @@
+import express from 'express';
+import dataController from './Controllers/DataController/DataController';
+import testController from './Controllers/TestController/TestController';
+import middleware from './middlewares/middleware'
+
+
+const router = express.Router();
+
+router.get('/', testController.firstTest);
+
+router.get('/teste/:id', testController.secondTest);
+
+router.get('/testeQuery', testController.queryTest);
+
+router.post('/formulario', middleware.validateText, middleware.validateInteger, dataController.exampleRoute);
+
+export default router;
