@@ -1,13 +1,13 @@
 class User {
 
-    codigo: number;
+    codigo: string;
     nome: string;
     cpf: string;
     contato: string;
 
     constructor(
 
-        codigo: number,
+        codigo: string,
         nome: string,
         cpf: string,
         contato: string,
@@ -25,7 +25,7 @@ class User {
 
     }
 
-    public setCodigo(codigo: number) {
+    public setCodigo(codigo: string) {
 
         this.codigo = codigo;
 
