@@ -3,20 +3,27 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "updist": "tsc && ts-node src/server.ts",
     "dev": "nodemon src/server.ts",
-    "build": "tsc"
+    "dev:server": "ts-node-dev src/server.ts",
+    "build": "tsc",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@js-joda/core": "^5.6.2",
+    "@types/firebase": "^3.2.1",
     "@types/node": "^20.11.24",
     "@types/pino": "^7.0.5",
     "cors": "^2.8.5",
+    "firebase": "^10.12.2",
+    "pg": "^8.11.5",
     "pino": "^8.19.0",
     "pino-http": "^9.0.0",
-    "ts-node": "^10.9.2"
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.20"
   },
   "description": "",
   "devDependencies": {

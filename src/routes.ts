@@ -1,17 +1,13 @@
 import express from 'express';
-import dataController from './Controllers/DataController/DataController';
-import testController from './Controllers/TestController/TestController';
+import userController from './Controllers/DoadorController/UserController';
 import middleware from './middlewares/middleware'
 
 
 const router = express.Router();
 
-router.get('/', testController.firstTest);
+router.post('/insert', userController.insert)
 
-router.get('/teste/:id', testController.secondTest);
-
-router.get('/testeQuery', testController.queryTest);
-
+/*
 router.post('/formulario',
     middleware.validateText,
     middleware.validateInteger,
@@ -19,5 +15,5 @@ router.post('/formulario',
     middleware.validateDropbox,
     middleware.validateRadioButton,
     dataController.exampleRoute);
-
+*/
 export default router;
