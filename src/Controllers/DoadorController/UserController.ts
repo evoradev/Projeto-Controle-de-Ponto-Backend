@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 import { ref, set, get, push, remove } from 'firebase/database';
 import User from '../../Models/User/User';
 import { db } from '../../db/firebase';
+import WebSocket from 'ws';
 
 class UserController {
-  constructor() {}
+  constructor() { }
 
   async insert(req: Request, res: Response) {
     try {
@@ -42,6 +43,25 @@ class UserController {
         console.log(`User not found with ID: ${userId}`); // Log caso o usuário não seja encontrado
         return res.status(404).json({ error: 'User not found' });
       }
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  async recieveFingerprint(req: Request, res: Response) {
+    try {
+      const { digital } = req.body; // Assume que o corpo da requisição contém 'digital'
+
+      // Processa a digital recebida
+      console.log(`Recebida digital: ${digital}`);
+
+      // Envia a digital para o frontend via WebSocket
+      const wss = new WebSocket.Server({ port: 3000 }); // Porta do seu servidor WebSocket
+      wss.on('connection', function connection(ws) {
+        ws.send(JSON.stringify({ digital }));
+      });
+
+      return res.status(200).json({ message: 'Digital recebida com sucesso' });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
