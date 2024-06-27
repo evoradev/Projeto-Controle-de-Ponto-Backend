@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import './db/firebase'; 
 
 const app = express();
-const port = 5000;
+const port = 4000;
 
 // Middleware para logar as requisições
 app.use(logRequests);

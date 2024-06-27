@@ -13,9 +13,9 @@ class UserController {
       const refUser = ref(db, 'User');
       const newUserRef = push(refUser); // Gera uma nova chave única
       if (newUserRef.key) {
-        newUser.codigo = newUserRef.key; // Atribui a chave gerada ao novo usuário
+        newUser.digital = newUserRef.key; // Atribui a chave gerada ao novo usuário
         await set(newUserRef, newUser);
-        console.log(`New user added with ID: ${newUser.codigo}`); // Log do ID do novo usuário
+        console.log(`New user added with ID: ${newUser.digital}`); // Log do ID do novo usuário
         return res.status(200).json(newUser);
       } else {
         throw new Error("Failed to generate a unique key for the new user");

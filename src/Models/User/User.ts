@@ -1,33 +1,33 @@
 class User {
 
-    codigo: string;
+    digital: string;
     nome: string;
     cpf: string;
     contato: string;
 
     constructor(
 
-        codigo: string,
+        digital: string,
         nome: string,
         cpf: string,
         contato: string,
 
     ) { 
-        this.codigo = codigo;
+        this.digital = digital;
         this.nome = nome;
         this.cpf = cpf; 
         this.contato = contato;
     }
 
-    public getCodigo() {
+    public getDigital() {
 
-        return this.codigo;
+        return this.digital;
 
     }
 
-    public setCodigo(codigo: string) {
+    public setDigital(digital: string) {
 
-        this.codigo = codigo;
+        this.digital = digital;
 
     }
 
@@ -69,7 +69,7 @@ class User {
 
     public static fromJson(json: User): User {
         return new User(
-            json.codigo,
+            json.digital,
             json.nome,
             json.cpf,
             json.contato,
