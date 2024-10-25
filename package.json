@@ -1,5 +1,5 @@
 {
-  "name": "TODO_LIST",
+  "name": "todo_list",
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "@types/pino": "^7.0.5",
     "cors": "^2.8.5",
     "firebase": "^10.12.2",
+    "firebase-admin": "^12.7.0",
     "pg": "^8.11.5",
     "pino": "^8.19.0",
     "pino-http": "^9.0.0",

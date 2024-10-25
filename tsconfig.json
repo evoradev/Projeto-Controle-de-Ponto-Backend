@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "dist",
+    "rootDir": "src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strict": true,
@@ -12,5 +12,5 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["backend/node_modules", "dist"]
 }

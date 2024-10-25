@@ -1,9 +1,7 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import Doacao from '../Models/Doacao/Doacao'
-import Doador from '../Models/Doador/Doador'
-import {CreateDoacaoTable1714659446727} from './migrations/1714659446727-CreateDoacaoTable'
-import {CreateDoadorTable1714659503624} from './migrations/1714659503624-CreateDoadorTable'
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import Task from '../Models/Task/Task';
+import TaskMigrations from "./migrations/1729871533067-CreateTasksTable";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -12,9 +10,9 @@ export const AppDataSource = new DataSource({
     username: "postgres",
     password: "12345",
     database: "postgres",
-    synchronize: true,
+    synchronize: false,
     logging: true,
-    entities: [Doacao, Doador],
-    migrations: [],
+    entities: [Task],
+    migrations: [TaskMigrations],
     subscribers: [],
-})
+});

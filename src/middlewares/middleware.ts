@@ -3,73 +3,60 @@ import logger from '../Log/logger';
 
 const handleValidationError = (error: Error, res: Response) => {
     logger.error(error.message);
-    res.json({ error: error.message });
+    res.status(400).json({ error: error.message });
 };
 
 const middleware = {
-    validateText: (req: Request, res: Response, next: NextFunction) => {
+    validateTitle: (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { texto } = req.body;
-            if (texto.length < 2 || texto.length > 255) {
-                throw new Error('Valor de texto incorreto');
+            const { title } = req.body;
+            if (typeof title !== 'string' || title.length < 2 || title.length > 255) {
+                throw new Error('Título deve ser uma string entre 2 e 255 caracteres');
             }
             next();
-
         } catch (error: any) {
             handleValidationError(error, res);
         }
     },
 
-    validateInteger: (req: Request, res: Response, next: NextFunction) => {
+    validateDescription: (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { inteiro } = req.body;
-            if (inteiro < 0 || inteiro > 1000) {
-                throw new Error('Valor de inteiro incorreto');
+            const { description } = req.body;
+            if (typeof description !== 'string' || description.length < 2 || description.length > 500) {
+                throw new Error('Descrição deve ser uma string entre 2 e 500 caracteres');
             }
             next();
-
         } catch (error: any) {
             handleValidationError(error, res);
         }
     },
 
-
-    validateBoolean: (req: Request, res: Response, next: NextFunction) => {
+    validateCompleted: (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { booleano } = req.body;
-            if (booleano === undefined || typeof booleano !== 'boolean') {
-                throw new Error('O valor nao pode ser indefinido');
+            const { completed } = req.body;
+            if (completed !== undefined && typeof completed !== 'boolean') {
+                throw new Error('Campo "completed" deve ser um booleano');
             }
             next();
-
         } catch (error: any) {
             handleValidationError(error, res);
         }
     },
 
-    validateDropbox: (req: Request, res: Response, next: NextFunction) => {
-        const { opcaoSelect } = req.body;
-        try{
-            if (opcaoSelect === '') {
-                throw new Error('Defina ao menos um valor');
+    validateTask: (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { title, description, completed } = req.body;
+
+            // Verifica se o título e descrição estão presentes
+            if (!title || !description) {
+                throw new Error('Título e descrição são obrigatórios');
             }
 
-            next();
-
-        }   catch (error: any) {
-            handleValidationError(error, res)
-        }
-    },
-
-    validateRadioButton: (req: Request, res: Response, next: NextFunction) => {
-        const { opcaoRadio } = req.body;
-        try{
-            if (opcaoRadio === '') {
-                throw new Error ('O valor nao pode ser indefinido')
-            }
-        next();
-
-        }   catch (error: any) {
+            // Chama as validações individuais
+            middleware.validateTitle(req, res, next);
+            middleware.validateDescription(req, res, next);
+            middleware.validateCompleted(req, res, next);
+        } catch (error: any) {
             handleValidationError(error, res);
         }
     }
