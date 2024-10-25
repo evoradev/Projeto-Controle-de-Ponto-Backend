@@ -1,15 +1,19 @@
-import React, { useState, useContext } from 'react';
-import { TaskContext } from '../context/TaskContext';
+// src/components/AddTask.js
+
+import React, { useState } from 'react';
+import useTasks from '../hooks/useTasks';
 
 const AddTask = () => {
   const [taskTitle, setTaskTitle] = useState('');
-  const { addTask } = useContext(TaskContext);
+  const [taskDescription, setTaskDescription] = useState('');
+  const { addTask } = useTasks();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskTitle) {
-      addTask({ id: Date.now(), title: taskTitle });
+      addTask({ title: taskTitle, description: taskDescription });
       setTaskTitle('');
+      setTaskDescription('');
     }
   };
 
@@ -19,8 +23,13 @@ const AddTask = () => {
         type="text" 
         value={taskTitle} 
         onChange={(e) => setTaskTitle(e.target.value)} 
-        placeholder="Add a new task"
+        placeholder="Add a new task title"
       />
+      <textarea
+        value={taskDescription}
+        onChange={(e) => setTaskDescription(e.target.value)}
+        placeholder="Add a description"
+      ></textarea>
       <button type="submit">Add Task</button>
     </form>
   );
