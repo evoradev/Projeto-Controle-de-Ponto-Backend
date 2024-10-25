@@ -43,7 +43,7 @@ const AddTask = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!taskTitle || !taskDescription) {
-      setError('Both title and description are required.');
+      setError('É necessário informar título e descrição.');
       return;
     }
 
@@ -56,7 +56,6 @@ const AddTask = () => {
       updatedAt: new Date()
     });
 
-    // Limpar campos e erro
     setTaskTitle('');
     setTaskDescription('');
     setError('');
@@ -68,16 +67,16 @@ const AddTask = () => {
         type="text" 
         value={taskTitle} 
         onChange={(e) => setTaskTitle(e.target.value)} 
-        placeholder="Task title" 
+        placeholder="Título" 
       />
       <Input 
         type="text" 
         value={taskDescription} 
         onChange={(e) => setTaskDescription(e.target.value)} 
-        placeholder="Task description" 
+        placeholder="Descrição" 
       />
       {error && <Error>{error}</Error>}
-      <Button type="submit">Add Task</Button>
+      <Button type="submit">Adicionar</Button>
     </Form>
   );
 };

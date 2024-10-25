@@ -18,7 +18,7 @@ const AppContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: #add8e6;
 `;
 
 const Content = styled.div`
@@ -42,7 +42,7 @@ const HeaderContainer = styled.div`
 const TaskListContainer = styled.div`
   overflow-y: auto;
   flex-grow: 1;
-  max-height: calc(70vh - 140px); /* Altura disponível após o cabeçalho */
+  max-height: calc(70vh - 140px);
 `;
 
 const App = () => {
@@ -52,7 +52,7 @@ const App = () => {
       <AppContainer>
         <Content>
           <HeaderContainer>
-          <h1 style={{ textAlign: 'center' }}>To-Do List</h1> {/* Centraliza o título */}
+            <h1 style={{ textAlign: 'center' }}>To-Do</h1>
             <AddTask />
           </HeaderContainer>
           <TaskListContainer>

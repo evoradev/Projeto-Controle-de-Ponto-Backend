@@ -61,12 +61,12 @@ const EditTask = ({ task, onClose }) => {
         type="text" 
         value={newTitle} 
         onChange={(e) => setNewTitle(e.target.value)} 
-        placeholder="Edit task title"
+        placeholder="Editar título"
       />
       <TextArea
         value={newDescription}
         onChange={(e) => setNewDescription(e.target.value)}
-        placeholder="Edit description"
+        placeholder="Editar descrição"
       ></TextArea>
       <ButtonContainer>
         <Button type="submit">Save</Button>
