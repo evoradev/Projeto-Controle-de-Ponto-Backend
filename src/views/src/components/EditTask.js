@@ -43,13 +43,13 @@ const Button = styled.button`
 `;
 
 const EditTask = ({ task, onClose }) => {
-  const { editTask } = useTasks();
+  const { updateTask } = useTasks();
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDescription, setNewDescription] = useState(task.description);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editTask(task.id, { title: newTitle, description: newDescription });
+    updateTask(task.id, { title: newTitle, description: newDescription });
     onClose();
   };
 

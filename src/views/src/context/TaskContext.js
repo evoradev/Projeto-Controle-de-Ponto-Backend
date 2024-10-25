@@ -52,7 +52,7 @@ export const TaskProvider = ({ children }) => {
   const updateTask = async (taskId, updatedTask) => {
     try {
       const response = await fetch(`http://localhost:5001/api/updateTask/${taskId}`, {
-        method: 'PUT',
+        method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedTask),
       });
@@ -71,6 +71,7 @@ export const TaskProvider = ({ children }) => {
       console.error(error);
     }
   };
+  
 
   const editTask = async (taskId, updatedTask) => {
     try {
@@ -127,7 +128,7 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, removeTask, editTask, toggleTaskCompletion }}>
+    <TaskContext.Provider value={{ tasks, addTask, removeTask, editTask, toggleTaskCompletion, updateTask }}>
       {children}
     </TaskContext.Provider>
   );

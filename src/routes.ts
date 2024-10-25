@@ -14,9 +14,10 @@ router.get('/getall', TaskController.getAll);
 
 router.delete('/delete/:id', TaskController.delete);
 
-router.put('updateTask/:id',
+router.post('/updateTask/:id',
     middleware.validateTitle,
     middleware.validateDescription,
     TaskController.updateTask);
+
 
 export default router;

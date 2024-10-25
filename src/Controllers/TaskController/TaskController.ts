@@ -15,6 +15,7 @@ class TaskController {
     this.getAll = this.getAll.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.updateTask = this.updateTask.bind(this);
   }
 
 
@@ -50,12 +51,12 @@ class TaskController {
         return res.status(404).json({ error: "Tarefa não encontrada" });
       }
   
-      existingTask.title = title; // Atualiza o título
-      existingTask.description = description; // Atualiza a descrição
+      existingTask.title = title;
+      existingTask.description = description; 
   
-      await this.taskRepository.save(existingTask); // Salva as alterações no banco de dados
+      await this.taskRepository.save(existingTask); 
   
-      return res.status(200).json(existingTask); // Retorna a tarefa atualizada
+      return res.status(200).json(existingTask); 
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
