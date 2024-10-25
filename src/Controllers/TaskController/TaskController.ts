@@ -12,22 +12,22 @@ class TaskController {
 
     // Bind the context of 'this' to the methods
     this.insert = this.insert.bind(this);
-    this.getOne = this.getOne.bind(this);
-    this.getOneById = this.getOneById.bind(this);
+    this.getAll = this.getAll.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
 
 
-  public exampleRoute(req: Request, res: Response): void {
-    let newObject = Task.fromJson(req.body);
-
-    logger.info(newObject);
-
-    res.json(newObject);
+  async getAll(req: Request, res: Response) {
+    try {
+      const tasks = await this.taskRepository.find();
+      return res.status(200).json(tasks);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 
-  public async insert(req: Request, res: Response) {
+  async insert(req: Request, res: Response) {
     try {
       logger.debug(req.body);
       const newObject = Task.fromJson(req.body);
@@ -39,25 +39,23 @@ class TaskController {
     }
   }
 
-  async getOne(req: Request, res: Response) {
-    try {
-      const tasks = await this.taskRepository.find();
-      return res.json(tasks);
-    } catch (error: any) {
-      return res.status(400).json({ error: error.message });
-    }
-  }
-
-  async getOneById(req: Request, res: Response) {
+  async updateTask(req: Request, res: Response) {
     try {
       const id: number = parseInt(req.params.id);
-      const task = await this.taskRepository.findOne({ where: { id } });
-
-      if (task) {
-        return res.json(task);
-      } else {
-        return res.status(404).json({ error: "Task not found" });
+      const { title, description } = req.body;
+  
+      const existingTask = await this.taskRepository.findOne({ where: { id } });
+  
+      if (!existingTask) {
+        return res.status(404).json({ error: "Tarefa não encontrada" });
       }
+  
+      existingTask.title = title; // Atualiza o título
+      existingTask.description = description; // Atualiza a descrição
+  
+      await this.taskRepository.save(existingTask); // Salva as alterações no banco de dados
+  
+      return res.status(200).json(existingTask); // Retorna a tarefa atualizada
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
@@ -65,36 +63,40 @@ class TaskController {
 
   async update(req: Request, res: Response) {
     try {
-      const id: number = parseInt(req.params.id);
-      const updatedTask = req.body as Task;
-      const existingTask = await this.taskRepository.findOne({ where: { id } });
+        const id: number = parseInt(req.params.id);
+        const { completed } = req.body; // Aqui pegamos o valor do body
 
-      if (existingTask) {
-        await this.taskRepository.save({ ...existingTask, ...updatedTask });
-        return res.status(200).json({ message: "Task updated successfully" });
-      } else {
-        return res.status(404).json({ error: "Task not found" });
-      }
+        const existingTask = await this.taskRepository.findOne({ where: { id } });
+
+        if (!existingTask) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        // Atualiza o status da tarefa
+        existingTask.completed = completed; // Aqui fazemos a atualização
+        await this.taskRepository.save(existingTask);
+
+        return res.status(200).json({ message: "Task updated successfully", completed: existingTask.completed });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
-  }
+}
 
-  async delete(req: Request, res: Response) {
-    try {
-      const id: number = parseInt(req.params.id);
-      const existingTask = await this.taskRepository.findOne({ where: { id } });
+async delete(req: Request, res: Response) {
+  try {
+    const id: number = parseInt(req.params.id);
+    const existingTask = await this.taskRepository.findOne({ where: { id } });
 
-      if (existingTask) {
-        await this.taskRepository.remove(existingTask);
-        return res.status(200).json({ message: "Task deleted successfully" });
-      } else {
-        return res.status(404).json({ error: "Task not found" });
-      }
-    } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+    if (existingTask) {
+      await this.taskRepository.remove(existingTask);
+      return res.status(200).json({ message: "Task deleted successfully" });
+    } else {
+      return res.status(404).json({ error: "Task not found" });
     }
+  } catch (error: any) {
+    return res.status(400).json({ error: error.message });
   }
+}
 }
 
 export default new TaskController();

@@ -1,5 +1,3 @@
-// src/components/AddTask.js
-
 import React, { useState, useContext } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import styled from 'styled-components';
@@ -47,13 +45,10 @@ const AddTask = () => {
       return;
     }
 
+    // Envia somente os dados necessários para o backend
     addTask({
-      id: Date.now(),
       title: taskTitle,
       description: taskDescription,
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
     });
 
     setTaskTitle('');

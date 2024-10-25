@@ -47,12 +47,10 @@ const middleware = {
         try {
             const { title, description, completed } = req.body;
 
-            // Verifica se o título e descrição estão presentes
             if (!title || !description) {
                 throw new Error('Título e descrição são obrigatórios');
             }
 
-            // Chama as validações individuais
             middleware.validateTitle(req, res, next);
             middleware.validateDescription(req, res, next);
             middleware.validateCompleted(req, res, next);

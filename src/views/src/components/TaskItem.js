@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import useTasks from '../hooks/useTasks';
-import EditTask from './EditTask';
+import React, { useContext, useState } from 'react';
+import { TaskContext } from '../context/TaskContext'; // ajuste o caminho conforme necessário
+import EditTask from './EditTask'; // Importa o componente de edição
 import styled from 'styled-components';
 
 const TaskContainer = styled.li`
@@ -75,8 +75,16 @@ const Button = styled.button`
 `;
 
 const TaskItem = ({ task, index }) => {
-  const { removeTask, toggleTaskCompletion } = useTasks();
+  const { toggleTaskCompletion, removeTask } = useContext(TaskContext);
   const [isEditing, setIsEditing] = useState(false);
+
+  const handleToggleCompletion = async () => {
+    await toggleTaskCompletion(task.id);
+  };
+
+  const handleRemoveTask = async () => {
+    await removeTask(task.id);
+  };
 
   return (
     <TaskContainer>
@@ -93,11 +101,11 @@ const TaskItem = ({ task, index }) => {
           </TaskInfo>
           <Description>{task.description}</Description>
           <ButtonContainer>
-            <Button primary onClick={() => toggleTaskCompletion(task.id)}>
+            <Button primary onClick={handleToggleCompletion}>
               {task.completed ? 'Reabrir' : 'Feito'}
             </Button>
             <Button onClick={() => setIsEditing(true)}>Editar</Button>
-            <Button onClick={() => removeTask(task.id)}>Remover</Button>
+            <Button onClick={handleRemoveTask}>Remover</Button>
           </ButtonContainer>
         </>
       )}

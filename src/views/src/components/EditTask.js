@@ -1,5 +1,3 @@
-// src/components/EditTask.js
-
 import React, { useState } from 'react';
 import useTasks from '../hooks/useTasks';
 import styled from 'styled-components';
@@ -69,8 +67,8 @@ const EditTask = ({ task, onClose }) => {
         placeholder="Editar descrição"
       ></TextArea>
       <ButtonContainer>
-        <Button type="submit">Save</Button>
-        <Button type="button" onClick={onClose}>Cancel</Button>
+        <Button type="submit">Salvar</Button>
+        <Button type="button" onClick={onClose}>Cancelar</Button>
       </ButtonContainer>
     </Form>
   );

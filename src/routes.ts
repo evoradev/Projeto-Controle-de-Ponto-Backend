@@ -4,11 +4,19 @@ import TaskController from './Controllers/TaskController/TaskController';
 
 const router = express.Router();
 
-router.post('/formulario',
+router.post('/insert', middleware.validateTitle,
+    middleware.validateDescription,
+    TaskController.insert);
+
+router.post('/update/:id', TaskController.update);
+
+router.get('/getall', TaskController.getAll);
+
+router.delete('/delete/:id', TaskController.delete);
+
+router.put('updateTask/:id',
     middleware.validateTitle,
     middleware.validateDescription,
-    middleware.validateCompleted,
-    middleware.validateTask,
-    TaskController.exampleRoute);
+    TaskController.updateTask);
 
 export default router;
