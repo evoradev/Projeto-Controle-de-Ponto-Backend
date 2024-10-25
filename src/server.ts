@@ -7,7 +7,7 @@ import 'reflect-metadata';
 import { AppDataSource } from './Database/data-source';
 
 const app = express();
-const port = 5000;
+const port = 5001;
 
 app.use(logRequests);
 app.use(cors());
@@ -16,7 +16,10 @@ app.use('/api', routes);
 
 AppDataSource.initialize().then(async () => {
     logger.debug('Database OK!');
+
     app.listen(port, () => {
-        logger.info(`Servidor rodando em http://localhost:${port}/api`)
-    })
-})
+        logger.info(`Servidor rodando em http://localhost:${port}/api`);
+    });
+}).catch((error) => {
+    logger.error('Error during Data Source initialization:', error);
+});

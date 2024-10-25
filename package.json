@@ -22,6 +22,7 @@
     "pino": "^8.19.0",
     "pino-http": "^9.0.0",
     "reflect-metadata": "^0.2.2",
+    "todo_list": "file:",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.20",
     "ws": "^8.17.1"
