@@ -1,16 +1,22 @@
-import React from 'react';
-import useTasks from '../hooks/useTasks';
+import React, { useContext } from 'react';
+import { TaskContext } from '../context/TaskContext';
 import TaskItem from './TaskItem';
+import styled from 'styled-components';
+
+const ListContainer = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
 
 const TaskList = () => {
-  const { tasks } = useTasks();
+  const { tasks } = useContext(TaskContext);
 
   return (
-    <ul>
-      {tasks.map(task => (
-        <TaskItem key={task.id} task={task} />
+    <ListContainer>
+      {tasks.map((task, index) => (
+        <TaskItem key={task.id} task={task} index={index} />
       ))}
-    </ul>
+    </ListContainer>
   );
 };
 
