@@ -9,8 +9,6 @@ class TaskController {
 
   constructor() {
     this.taskRepository = AppDataSource.getRepository(Task);
-
-    // Bind the context of 'this' to the methods
     this.insert = this.insert.bind(this);
     this.getAll = this.getAll.bind(this);
     this.update = this.update.bind(this);
@@ -48,7 +46,7 @@ class TaskController {
       const existingTask = await this.taskRepository.findOne({ where: { id } });
   
       if (!existingTask) {
-        return res.status(404).json({ error: "Tarefa não encontrada" });
+        return res.status(404).json({ error: "Task not found" });
       }
   
       existingTask.title = title;
@@ -65,7 +63,7 @@ class TaskController {
   async update(req: Request, res: Response) {
     try {
         const id: number = parseInt(req.params.id);
-        const { completed } = req.body; // Aqui pegamos o valor do body
+        const { completed } = req.body;
 
         const existingTask = await this.taskRepository.findOne({ where: { id } });
 
@@ -73,8 +71,7 @@ class TaskController {
             return res.status(404).json({ error: "Task not found" });
         }
 
-        // Atualiza o status da tarefa
-        existingTask.completed = completed; // Aqui fazemos a atualização
+        existingTask.completed = completed;
         await this.taskRepository.save(existingTask);
 
         return res.status(200).json({ message: "Task updated successfully", completed: existingTask.completed });

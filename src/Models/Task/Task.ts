@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { TaskList } from '../TaskList/TaskList';
 
 @Entity('tasks')
 export class Task {
@@ -14,19 +15,23 @@ export class Task {
     @Column({ default: false })
     completed: boolean;
 
+    //@ManyToOne(() => TaskList, (taskList) => taskList.tasks)
+    //taskList?: TaskList;
+
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
 
-    constructor(id: number, title: string, description: string, completed: boolean = false, createdAt: Date, updatedAt: Date) {
+    constructor(id: number, title: string, description: string, completed: boolean = false, /*taskList?: TaskList,*/ createdAt: Date, updatedAt: Date) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
+       // this.taskList = taskList;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt
+        this.updatedAt = updatedAt;
     }
     
     public static fromJson(json: Task): Task {
@@ -35,6 +40,7 @@ export class Task {
             json.title,
             json.description,
             json.completed,
+           // json.taskList,
             json.createdAt,
             json.updatedAt
         );

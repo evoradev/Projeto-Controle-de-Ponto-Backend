@@ -1,56 +1,44 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const TaskListContext = createContext();
 
 export const TaskListProvider = ({ children }) => {
   const [taskLists, setTaskLists] = useState([]);
 
-  const addTaskList = (title) => {
-    const newTaskList = {
-      id: Date.now(),
-      title,
-      tasks: [],
-    };
-    setTaskLists([...taskLists, newTaskList]);
+  const fetchTaskLists = async () => {
+    try {
+      const response = await axios.get('/api/getallTl'); 
+      setTaskLists(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar listas de tarefas:", error);
+    }
   };
 
-  const removeTaskList = (listId) => {
-    setTaskLists(taskLists.filter(list => list.id !== listId));
+  const addTaskList = async (title) => {
+    try {
+      const response = await axios.post('/api/insertTl', { title });
+      setTaskLists((prev) => [...prev, response.data]);
+    } catch (error) {
+      console.error("Erro ao adicionar lista de tarefas:", error);
+    }
   };
 
-  const addTaskToList = (listId, task) => {
-    setTaskLists(taskLists.map(list =>
-      list.id === listId ? { ...list, tasks: [...list.tasks, task] } : list
-    ));
+  const removeTaskList = async (id) => {
+    try {
+      await axios.delete(`/api/deleteTl/${id}`);
+      setTaskLists((prev) => prev.filter((list) => list.id !== id));
+    } catch (error) {
+      console.error("Erro ao remover lista de tarefas:", error);
+    }
   };
 
-  const editTaskInList = (listId, task) => {
-    setTaskLists(taskLists.map(list =>
-      list.id === listId ? {
-        ...list,
-        tasks: list.tasks.map(t => (t.id === task.id ? task : t)),
-      } : list
-    ));
-  };
-
-  const removeTaskFromList = (listId, taskId) => {
-    setTaskLists(taskLists.map(list =>
-      list.id === listId ? {
-        ...list,
-        tasks: list.tasks.filter(t => t.id !== taskId),
-      } : list
-    ));
-  };
+  useEffect(() => {
+    fetchTaskLists();
+  }, []);
 
   return (
-    <TaskListContext.Provider value={{
-      taskLists,
-      addTaskList,
-      removeTaskList,
-      addTaskToList,
-      editTaskInList,
-      removeTaskFromList
-    }}>
+    <TaskListContext.Provider value={{ taskLists, addTaskList, removeTaskList }}>
       {children}
     </TaskListContext.Provider>
   );

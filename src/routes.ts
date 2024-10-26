@@ -1,6 +1,7 @@
 import express from 'express';
 import middleware from './middlewares/middleware'
 import TaskController from './Controllers/TaskController/TaskController';
+import TaskListsController from './Controllers/TaskController/TaskListsController';
 
 const router = express.Router();
 
@@ -19,5 +20,10 @@ router.post('/updateTask/:id',
     middleware.validateDescription,
     TaskController.updateTask);
 
+router.post('/insertTl', TaskListsController.createTaskList);
+
+router.get('/getallTl', TaskListsController.getAllTaskLists);
+
+router.delete('/deleteTl/:id', TaskListsController.deleteTaskList);
 
 export default router;
